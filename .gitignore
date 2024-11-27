@@ -45,5 +45,5 @@ dist/nhsuk-*.min.js
 # Puppeteer / chrome
 .cache
 
-# SonarQube
-.scannerwork
+# SonarScanner temporary files
+.scannerwork/

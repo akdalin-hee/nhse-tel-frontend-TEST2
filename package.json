@@ -1,7 +1,7 @@
 {
-  "name": "nhsuk-frontend",
-  "version": "9.0.1",
-  "description": "NHS.UK frontend contains the code you need to start building user interfaces for NHS websites and services.",
+  "name": "nhsuk-frontend-tel",
+  "version": "0.0.1",
+  "description": "NHS.UK frontend TEL contains the code you need to start building user interfaces for NHS websites and services.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -16,6 +16,7 @@
     "lint:js": "eslint -c ./tests/linters/.eslintrc.js packages/components/**/*.js",
     "lint:js:fix": "eslint --fix -c ./tests/linters/.eslintrc.js packages/components/**/*.js",
     "lint:css": "stylelint -f verbose --config ./tests/linters/.stylelintrc.js packages/**/*.scss",
+    "lint:css:tel": "stylelint -f verbose --config ./tests/linters/.stylelintrc.tel.js packages/components/tel/**/*.scss",
     "lint:css:fix": "stylelint --fix -f verbose --config ./tests/linters/.stylelintrc.js packages/**/*.scss",
     "lint:html": "htmlhint --config ./tests/linters/.htmlhintrc ./dist/app/components/**/*.html",
     "backstop:interactive": "backstop remote --config ./tests/backstop/backstop.js",
@@ -25,7 +26,7 @@
     "backstop:citest": "backstop --config=./tests/backstop/backstop.js test --docker",
     "backstop:approve": "backstop --config=./tests/backstop/backstop.js approve",
     "backstop:clean": "rm -rf tests/backstop/bitmaps_test/*",
-    "build-gh-pages": "gulp bundle && BASE_URL='/nhsuk-frontend/' gulp docs:build",
+    "build-gh-pages": "gulp bundle && BASE_URL='/nhsuk-frontend-tel/' gulp docs:build",
     "build-gh-release": "gulp zip",
     "jest:dev": "jest --watch",
     "jest:ci": "jest"
@@ -87,11 +88,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nhsuk/nhsuk-frontend.git"
+    "url": "git+https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel"
   },
-  "homepage": "https://nhsuk.github.io/nhsuk-frontend/",
+  "homepage": "https://technologyenhancedlearning.github.io/nhsuk-frontend-tel/",
   "bugs": {
-    "url": "https://github.com/nhsuk/nhsuk-frontend/issues"
+    "url": "https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/issues"
   },
   "license": "MIT"
 }
