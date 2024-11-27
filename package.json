@@ -1,7 +1,7 @@
 {
   "name": "nhsuk-frontend-tel",
-  "version": "0.0.1-test11",
-  "description": "NHS.UK frontend contains the code you need to start building user interfaces for NHS websites and services.",
+  "version": "0.0.1",
+  "description": "NHS.UK frontend TEL contains the code you need to start building user interfaces for NHS websites and services.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -88,11 +88,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nhsuk/nhsuk-frontend.git"
+    "url": "git+https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel"
   },
-  "homepage": "https://nhsuk.github.io/nhsuk-frontend/",
+  "homepage": "https://technologyenhancedlearning.github.io/nhsuk-frontend-tel/",
   "bugs": {
-    "url": "https://github.com/nhsuk/nhsuk-frontend/issues"
+    "url": "https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/issues"
   },
   "license": "MIT"
 }
