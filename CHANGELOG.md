@@ -22,7 +22,7 @@ First release of the fork, with initial setup and configuration
   - Update version in `package.json` ([d438cdc](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/commit/d438cdc5c16b244103006fda6fb2f8870ec7f42b))
   - Update name in `package.json` ([5e00411](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/commit/5e00411eccdff9f72f0bbecb47d76ef52afa56b8))
 
-### GitHub Workflow
+### GitHub workflow and pull request template
 
 - Added tel specific lint script
 - Updated `sonar-project.properties`
@@ -30,6 +30,8 @@ First release of the fork, with initial setup and configuration
 - Updated `.gitignore` to ignore Sonar temporary files
 
   ([PR 5](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/5)).
+
+- Update paths in `PULL_REQUEST_TEMPLATE.md`
 
   **Direct commits** related to GitHub Workflow
 
