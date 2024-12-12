@@ -1,7 +1,7 @@
 {
-  "name": "nhsuk-frontend-tel",
+  "name": "nhse-tel-frontend",
   "version": "0.0.1",
-  "description": "NHS.UK frontend TEL contains the code you need to start building user interfaces for NHS websites and services.",
+  "description": "NHS England TEL frontend contains the code you need to start building user interfaces for NHS websites and services.",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -26,7 +26,7 @@
     "backstop:citest": "backstop --config=./tests/backstop/backstop.js test --docker",
     "backstop:approve": "backstop --config=./tests/backstop/backstop.js approve",
     "backstop:clean": "rm -rf tests/backstop/bitmaps_test/*",
-    "build-gh-pages": "gulp bundle && BASE_URL='/nhsuk-frontend-tel/' gulp docs:build",
+    "build-gh-pages": "gulp bundle && BASE_URL='/nhse-tel-frontend/' gulp docs:build",
     "build-gh-release": "gulp zip",
     "jest:dev": "jest --watch",
     "jest:ci": "jest"
@@ -88,11 +88,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel"
+    "url": "git+https://github.com/TechnologyEnhancedLearning/nhse-tel-frontend"
   },
-  "homepage": "https://technologyenhancedlearning.github.io/nhsuk-frontend-tel/",
+  "homepage": "https://technologyenhancedlearning.github.io/nhse-tel-frontend/",
   "bugs": {
-    "url": "https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/issues"
+    "url": "https://github.com/TechnologyEnhancedLearning/nhse-tel-frontend/issues"
   },
   "license": "MIT"
 }
