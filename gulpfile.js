@@ -149,7 +149,7 @@ function createZip() {
       base: 'dist',
       encoding: false
     })
-    .pipe(zip(`nhsuk-frontend-tel-${version}.zip`))
+    .pipe(zip(`nhse-tel-frontend-${version}.zip`))
     .pipe(gulp.dest('dist'))
 }
 
