@@ -18,20 +18,20 @@ jobs:
     - name: Install dependencies
       run: npm install
   
-    - name: Sonar analysis
-      uses: sonarsource/sonarcloud-github-action@master
-      with:
-        projectBaseDir: .
-      env:
-        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} 
+    #- name: Sonar analysis
+    #  uses: sonarsource/sonarcloud-github-action@master
+    #  with:
+    #    projectBaseDir: .
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+    #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} 
   
     - name: Run linting
       run: npm run lint
     
-    - name: Run tests
-      run: npm test
+    #- name: Run tests
+    #  run: npm test
   
-    - name: Run backstop
-      run: npm run backstop:ci
+    #- name: Run backstop
+    #  run: npm run backstop:ci

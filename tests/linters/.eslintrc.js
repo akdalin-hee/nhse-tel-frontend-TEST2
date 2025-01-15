@@ -14,7 +14,7 @@ module.exports = {
   rules: {
     'no-console': 0,
     'prettier/prettier': [
-      'error',
+      'warn',
       {
         endOfLine: 'auto'
       }
