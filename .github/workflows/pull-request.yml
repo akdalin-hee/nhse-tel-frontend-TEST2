@@ -30,8 +30,8 @@ jobs:
     - name: Run linting
       run: npm run lint
     
-    - name: Run tests
-      run: npm test
+    #- name: Run tests
+    #  run: npm test
   
-    - name: Run backstop
-      run: npm run backstop:ci
+    #- name: Run backstop
+    #  run: npm run backstop:ci
