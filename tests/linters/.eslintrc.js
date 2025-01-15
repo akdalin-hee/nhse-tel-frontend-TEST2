@@ -14,7 +14,7 @@ module.exports = {
   rules: {
     'no-console': 0,
     'prettier/prettier': [
-      'warn',
+      'error',
       {
         endOfLine: 'auto'
       }
@@ -28,5 +28,5 @@ module.exports = {
     'no-plusplus': 0,
     'no-underscore-dangle': 0,
     'no-param-reassign': 0
-  }
+  },
 }
