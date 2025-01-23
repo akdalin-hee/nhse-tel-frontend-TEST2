@@ -351,7 +351,7 @@
   &:visited {
     color: $color_nhsuk-white;
 
-    @include mq($from: xl-desktop) {
+    @include mq($from: large-desktop) {
       color: $color_nhsuk-white;
     }
   }
@@ -361,7 +361,7 @@
     color: $color_nhsuk-white;
     text-decoration: none;
 
-    @include mq($from: xl-desktop) {
+    @include mq($from: large-desktop) {
       color: $color_nhsuk-white;
     }
   }
@@ -506,7 +506,7 @@
     border-top: 1px solid $color_nhsuk-grey-5;
     margin-bottom: 0;
 
-    @include mq($from: xl-desktop) {
+    @include mq($from: large-desktop) {
       border-top: 0;
       margin: 0;
       text-align: center;

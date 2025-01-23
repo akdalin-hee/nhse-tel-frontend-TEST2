@@ -8,7 +8,7 @@
   text-decoration: none;
   width: auto;
 
-  @include mq($from: xl-desktop) {
+  @include mq($from: large-desktop) {
     align-items: center;
     display: flex;
     -ms-flex-align: center;
@@ -49,11 +49,11 @@
   padding-left: 0;
   padding-right: 0;
 
-  @include mq($from: xl-desktop) {
+  @include mq($from: large-desktop) {
     padding-left: nhsuk-spacing(3);
   }
 
-  @include mq($until: xl-desktop) {
+  @include mq($until: large-desktop) {
     max-width: 220px;
   }
 }
