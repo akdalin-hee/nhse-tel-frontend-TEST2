@@ -23,10 +23,10 @@
 $mq-responsive: true; // [1] //
 
 $mq-breakpoints: (
-  mobile: 320px,
-  tablet: 641px,
-  desktop: 769px,
-  large-desktop: 990px
+  mobile: 300px,
+  tablet: 600px,
+  desktop: 900px,
+  large-desktop: 1200px
 );
 
-$mq-static-breakpoint: desktop; // [2] //
+$mq-static-breakpoint: large-desktop; // [2] //
