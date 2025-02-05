@@ -1,13 +1,12 @@
-# NHS.UK frontend TEL Changelog
+# NHS England TEL frontend Changelog
 
 **Note:** This changelog begins with changes introduced in this fork.
 
-Entries from the original repository can be found [here](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md)
+Entries from the original NHS.UK frontend repository can be found [here](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md)
 up to [v9.0.1](https://github.com/nhsuk/nhsuk-frontend/releases/tag/v9.0.1).
 
-## 0.0.1 - 27 November 2024
 
-First release of the fork, with initial setup and configuration
+Initial setup and configuration
 
 ### Miscellaneous
 
@@ -15,9 +14,22 @@ First release of the fork, with initial setup and configuration
 - Create tel folder for components ([PR 2](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/2)).
 - Update documentation and github pages content ([PR 4](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/4)) ([PR 6](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/6)).
 - Update description and version and paths in `package.json` ([PR 9](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/9)).
+- Update github pages `BUG_REPORT.md` repo name ([PR 10](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/10)).
 - Update `README.md` ([PR 11](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/11)).
 - Update `README.md` ([PR 12](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/12)).
+- Update prettier rule to warn instead of error and comment out PR workflow tests ([PR 14](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/14)).
+- Add NHSDesignSystemViewComponents and add eslintignore to resolve issues with new code ([PR 15](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/15)).
+- Update site widths and breakpoints ([PR 16](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/16)).
+
+
+
+
+
+
+
 - **Direct commits**:
+  - Update github pages `BUG_REPORT.md` with correct repo name ([4814339
+](https://github.com/TechnologyEnhancedLearning/nhse-tel-frontend/commit/4814339daedfacaaa45dfefca4ddda013667def5))
   - Update github pages `about.njk` page text and contact info and contributing link ([a621b64](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/commit/a621b6436932d746fe68259e81dc06aaf627c1bc))
   - Update github pages `index.njk` page to remove link to service manual and update heading text ([5c6660a](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/commit/5c6660a23ea3757bd6b57559d27ca9aeefc05fcb))
   - Update github pages `examples.njk` page text and link ([20c7ba7](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/commit/20c7ba7545debf133bd78f94da270b83fc5bd4d4))
