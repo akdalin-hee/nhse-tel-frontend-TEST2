@@ -7,6 +7,8 @@ up to [v9.0.1](https://github.com/nhsuk/nhsuk-frontend/releases/tag/v9.0.1).
 
 ## 0.0.1 - 5 February 2025
 
+- Add scope to package name ([PR 25](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/25)).
+
 - Pull changes in from upstream repo ([PR 24](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/24)).
 
 Initial setup and configuration
