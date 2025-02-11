@@ -21,7 +21,7 @@ To use NHS England TEL frontend in your projects with npm you must:
 Install the NHS England TEL frontend package into your project:
 
 ```
-npm install @technology-enhanced-learning/nhse-tel-frontend --save
+npm install nhse-tel-frontend --save
 ```
 
 ## Configuration
@@ -39,17 +39,17 @@ To build the stylesheet you will need a pipeline set up to compile [Sass](https:
 You need to import the NHS England TEL frontend styles into the main Sass file in your project. You should place the below code before your own Sass rules (or Sass imports).
 
 ```SCSS
-@import 'node_modules/@technology-enhanced-learning/nhse-tel-frontend/packages/nhsuk';
+@import 'node_modules/nhse-tel-frontend/packages/nhsuk';
 ```
 
 Alternatively you can import each of the individual components separately, meaning you can import just the components that you are using.
 
 ```SCSS
 // Core (required)
-@import 'node_modules/@technology-enhanced-learning/nhse-tel-frontend/packages/core/all';
+@import 'node_modules/nhse-tel-frontend/packages/core/all';
 
 // Individual component (optional)
-@import 'node_modules/@technology-enhanced-learning/nhse-tel-frontend/packages/components/action-link/action-link';
+@import 'node_modules/nhse-tel-frontend/packages/components/action-link/action-link';
 ```
 
 ## Importing JavaScript
@@ -66,7 +66,7 @@ document.body.className = ((document.body.className) ? document.body.className +
 
 ### Option 1: Include compiled JavaScript
 
-Include the `node_modules/@technology-enhanced-learning/nhse-tel-frontend/dist/nhsuk.min.js` script in the `<head>` of your page using the `defer` attribute.
+Include the `node_modules/nhse-tel-frontend/dist/nhsuk.min.js` script in the `<head>` of your page using the `defer` attribute.
 
 > The defer attribute is used for performance benefits as the browser loads the JavaScript file as soon as possible, due to it being in the `<head>`, but will not run until after the page has loaded.
 
@@ -78,7 +78,7 @@ You might wish to copy the file into your project or reference it straight from 
 ```
 
 ```html
-    <script src="node_modules/@technology-enhanced-learning/nhse-tel-frontend/dist/nhsuk.min.js" defer></script>
+    <script src="node_modules/nhse-tel-frontend/dist/nhsuk.min.js" defer></script>
   </head>
 ```
 
@@ -96,7 +96,7 @@ import Radios from './components/radios/radios';
 import SkipLink from './components/skip-link/skip-link';
 
 // Polyfills
-import '../node_modules/@technology-enhanced-learning/nhse-tel-frontend/packages/polyfills';
+import '../node_modules/nhse-tel-frontend/packages/polyfills';
 
 // Initialize components
 document.addEventListener('DOMContentLoaded', () => {
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ## Importing assets (optional)
 
-If you want to import assets such as the NHS logo, favicons and SVG icons, you might wish to copy the files into your project folders from the `node_modules/@technology-enhanced-learning/nhse-tel-frontend/assets/` directory or you can reference them straight from the `node_modules` folder.
+If you want to import assets such as the NHS logo, favicons and SVG icons, you might wish to copy the files into your project folders from the `node_modules/nhse-tel-frontend/assets/` directory or you can reference them straight from the `node_modules` folder.
 
 ```html
 <link rel="shortcut icon" href="path-to-assets/favicon.ico" type="image/x-icon">

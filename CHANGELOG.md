@@ -5,9 +5,11 @@
 Entries from the original NHS.UK frontend repository can be found [here](https://github.com/nhsuk/nhsuk-frontend/blob/main/CHANGELOG.md)
 up to [v9.0.1](https://github.com/nhsuk/nhsuk-frontend/releases/tag/v9.0.1).
 
-## Unreleased
+## 0.0.2 - 11 February 2025
 
 :wrench: **Fixes**
+
+- Removed scoping from package name due to issues importing into other repos and updated installation instructions.
 
 - Update github pages installation instructions with correct name and path ([PR 26](https://github.com/TechnologyEnhancedLearning/nhsuk-frontend-tel/pull/26)).
 
