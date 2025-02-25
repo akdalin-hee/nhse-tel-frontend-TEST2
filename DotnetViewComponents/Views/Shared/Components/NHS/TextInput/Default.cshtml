@@ -29,7 +29,7 @@
     }
 
 
-    @if (Model.Prefix)
+    @if (!String.IsNullOrWhiteSpace(Model.Prefix) == true)
     {
     <div class="nhsuk-input__prefix" aria-hidden="true">@Model.Prefix</div>
     }
@@ -45,7 +45,7 @@
            aria-required="@(Model.Required ? "true" : "false" )"
            data-val-required="@(Model.Required ? Model.RequiredClientSideErrorMessage : "" )"
            data-val="@(Model.Required ? "true" : "false" )" />
-    @if (Model.Suffix)
+    @if (!String.IsNullOrWhiteSpace(Model.Suffix) == true)
     {
         <div class="nhsuk-input__suffix" aria-hidden="true">@Model.Suffix</div>
     }

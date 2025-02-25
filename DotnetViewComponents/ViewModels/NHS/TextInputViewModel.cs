@@ -18,8 +18,8 @@ namespace DotnetViewComponents.ViewModels.NHS
             string? hintText = null,
             bool required = false,
             string? placeholder = null,
-            string? requiredSideClientErrorMessage = default
-            string? prefix = null
+            string? requiredSideClientErrorMessage = default,
+            string? prefix = null,
             string? suffix = null
         )
         {
@@ -39,8 +39,8 @@ namespace DotnetViewComponents.ViewModels.NHS
             HasError = errorMessageList.Any();
             PlaceHolder = placeholder;
             RequiredClientSideErrorMessage = requiredSideClientErrorMessage;
-            Prefix = prefix
-            Suffix = suffix
+            Prefix = prefix;
+            Suffix = suffix;
         }
 
         public string Id { get; set; }

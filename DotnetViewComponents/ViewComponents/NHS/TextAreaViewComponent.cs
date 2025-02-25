@@ -1,7 +1,7 @@
-﻿namespace DotnetViewComponents.ViewComponents.NHS
+namespace DotnetViewComponents.ViewComponents.NHS
 {
     using Microsoft.AspNetCore.Mvc;
-    using NHSUKViewComponents.Web.Helpers;
+    using DotnetViewComponents.Helpers;
     using DotnetViewComponents.ViewModels.NHS;
 
     public class TextAreaViewComponent : ViewComponent
