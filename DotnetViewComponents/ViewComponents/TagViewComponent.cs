@@ -7,9 +7,9 @@ namespace DotnetViewComponents.ViewComponents
     {
         public IViewComponentResult Invoke(
             string name,
-            string style = TagStyle.INPROGRESS)
+            string styling = TagStyle.INPROGRESS)
         {
-            var model = new TagViewModel(name, style);
+            var model = new TagViewModel(name, styling);
 
             return View(model);
         }

@@ -4,15 +4,15 @@ namespace DotnetViewComponents.ViewModels
     {
         public TagViewModel(
             string name,
-            string style = TagStyle.INPROGRESS)
+            string styling = TagStyle.INPROGRESS)
         {
             Name = name;
-            Style = style;
+            Styling = styling;
         }
 
         public string Name { get; set; }
 
-        public string? Style { get; set;}
+        public string? Styling { get; set;}
     }
 
     public static class TagStyle
