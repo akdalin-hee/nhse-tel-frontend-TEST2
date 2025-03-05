@@ -19,7 +19,7 @@ namespace DotnetViewComponents.ViewModels
         {
             Id = id;
             Name = name;
-            url = url;
+            Url = url;
             State = state;
             StateStyle = stateStyle;
             HintText = hintText;
