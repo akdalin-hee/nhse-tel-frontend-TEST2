@@ -9,7 +9,7 @@
         {
             <li class="nhsuk-task-list__item nhsuk-task-list__item--with-link">
                 <div class="nhsuk-task-list__name-and-hint">
-                    <a class="nhsuk-link nhsuk-task-list__link" href="#" aria-describedby=@task.Id>
+                    <a class="nhsuk-link nhsuk-task-list__link" href="@task.Url" aria-describedby=@task.Id>
                         @task.Name
                     </a>
                     @if (!String.IsNullOrWhiteSpace(task.HintText))
@@ -27,7 +27,7 @@
         {
             <li class="nhsuk-task-list__item nhsuk-task-list__item--with-link">
                 <div class="nhsuk-task-list__name-and-hint">
-                    <a class="nhsuk-link nhsuk-task-list__link" href="#" aria-describedby="your-health-@task.Id-status">
+                    <a class="nhsuk-link nhsuk-task-list__link" href="@task.Url" aria-describedby="your-health-@task.Id-status">
                         @task.Name
                     </a>
                     @if (!String.IsNullOrWhiteSpace(task.HintText))

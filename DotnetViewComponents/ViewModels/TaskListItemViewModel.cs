@@ -12,12 +12,14 @@ namespace DotnetViewComponents.ViewModels
         public TaskListItemViewModel(
             string id,
             string name,
+            string url,
             string state,
             TaskStateStyle stateStyle,
             string hintText)
         {
             Id = id;
             Name = name;
+            url = url;
             State = state;
             StateStyle = stateStyle;
             HintText = hintText;
@@ -26,6 +28,8 @@ namespace DotnetViewComponents.ViewModels
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Url { get; set; }
 
         public string State { get; set; }
 
