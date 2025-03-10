@@ -8,7 +8,7 @@ namespace DotnetViewComponents.ViewComponents
     {
         public IViewComponentResult Invoke(
             bool isDo,
-            string[] ruleSet)
+            List<string> ruleSet)
         {
 
             var model = new DoDontListViewModel(isDo, ruleSet);

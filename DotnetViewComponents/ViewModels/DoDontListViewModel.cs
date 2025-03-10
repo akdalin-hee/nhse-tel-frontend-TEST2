@@ -4,7 +4,7 @@ namespace DotnetViewComponents.ViewModels
     {
         public DoDontListViewModel(
             bool isDo,
-            string[] ruleSet)
+            List<string> ruleSet)
         {
             IsDo = isDo;
             RuleSet = ruleSet;
@@ -12,6 +12,6 @@ namespace DotnetViewComponents.ViewModels
 
         public bool IsDo { get; set; }
 
-        public string[] RuleSet { get; set; }
+        public List<string> RuleSet { get; set; }
     }
 }
