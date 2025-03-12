@@ -2,6 +2,12 @@ namespace DotnetViewComponents.ViewModels
 {
     public class ButtonViewModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ButtonViewModel"/> class.
+        /// </summary>
+        /// <param name="text">The text to be displayed on the button.</param>
+        /// <param name="styling">The styling class for the button. Defaults to <see cref="ButtonStyle.PRIMARY"/>.</param>
+        /// <param name="preventDoubleClick">Indicates whether to prevent double-clicking the button. Defaults to <c>false</c>.</param>
         public ButtonViewModel(
             string text,
             string styling = ButtonStyle.PRIMARY,
@@ -12,10 +18,19 @@ namespace DotnetViewComponents.ViewModels
             PreventDoubleClick = preventDoubleClick;
         }
 
+        /// <summary>
+        /// Gets or sets the text displayed on the button.
+        /// </summary>
         public string Text { get; set; }
 
+        /// <summary>
+        /// Gets or sets the styling for the button.
+        /// </summary>
         public string Styling { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to prevent double-clicking the button.
+        /// </summary>
         public bool PreventDoubleClick { get; set; }
 
     }
