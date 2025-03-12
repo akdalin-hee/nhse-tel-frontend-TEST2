@@ -31,18 +31,39 @@ namespace DotnetViewComponents.ViewModels
             IsClickable = isClickable;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the card.
+        /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// Gets or sets the description of the card.
+        /// </summary>
         public string? Description { get; set; }
 
+        /// <summary>
+        /// Gets or sets the source URL of the image to be displayed on the card.
+        /// </summary>
         public string? ImageSrc { get; set; }
 
+        /// <summary>
+        /// Gets or sets the HTML heading level for the title.
+        /// </summary>
         public int HeadingLevel { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the card should display an arrow.
+        /// </summary>
         public bool HasArrow { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the card is styled as a secondary card.
+        /// </summary>
         public bool IsSecondary { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the card is clickable.
+        /// </summary>
         public bool IsClickable { get; set; }
     }
 }
