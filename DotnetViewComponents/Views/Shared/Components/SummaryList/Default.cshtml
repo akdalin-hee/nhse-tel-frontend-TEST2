@@ -1,6 +1,10 @@
 @using DotnetViewComponents.ViewModels
 @model SummaryListViewModel
 
+@{
+    bool hasActions = !String.IsNullOrWhiteSpace(@Model.SummaryListItem.First().ActionUrl);
+}
+
 <dl class="nhsuk-summary-list @(!Model.HasBorder ?  "nhsuk-summary-list--no-border" : "")">
     @foreach (var listItem in Model.SummaryListItem)
     {
@@ -12,14 +16,16 @@
                 @listItem.Description
             </dd>
 
-            <dd class="nhsuk-summary-list__actions">
-                @if (!String.IsNullOrWhiteSpace(@listItem.ActionUrl))
-                {
+            @if (hasActions)
+            {
+                <dd class="nhsuk-summary-list__actions">
+
                     <a href=@listItem.ActionUrl>
                         @listItem.ActionName<span class="nhsuk-u-visually-hidden"> @listItem.Title</span>
                     </a>
-                }
-            </dd>
+
+                </dd>
+            }
         </div>
     }
 </dl>

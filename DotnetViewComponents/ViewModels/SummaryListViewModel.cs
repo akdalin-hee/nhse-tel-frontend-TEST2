@@ -5,7 +5,7 @@ namespace DotnetViewComponents.ViewModels
     {
         public SummaryListViewModel(
             IEnumerable<SummaryListItemViewModel> summaryListItem,
-            bool hasBorder = true)
+            bool hasBorder)
         {
             SummaryListItem = summaryListItem;
             HasBorder = hasBorder;
