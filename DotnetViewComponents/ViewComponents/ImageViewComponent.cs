@@ -9,11 +9,9 @@ namespace DotnetViewComponents.ViewComponents
             string src,
             string alt,
             string caption,
-            string? sizes = null,
-            string? srcSet = null,
             string? additionalAttributes = null)
         {
-            var model = new ImageViewModel(src, alt, caption, sizes, srcSet, additionalAttributes);
+            var model = new ImageViewModel(src, alt, caption, additionalAttributes);
 
             return View(model);
         }
