@@ -5,10 +5,10 @@
     <caption class="nhsuk-table__caption">@Model.Title</caption>
     <thead role="rowgroup" class="nhsuk-table__head">
         <tr role="row">
-            @foreach (var header in Model.Headers)
+            @foreach (var col in Model.Rows[0])
             {
                 <th role="columnheader" class="@(Model.HasNumericData ? "nhsuk-table__header--numeric" : "")" scope="col">
-                    @header
+                    @col.Header
                 </th>
             }
         </tr>

@@ -8,12 +8,11 @@ namespace DotnetViewComponents.ViewComponents
     {
         public IViewComponentResult Invoke(
             string title,
-            List<string> headers,
             List<List<TableColumnModel>> rows,
             bool isResponsive = false,
             bool hasNumericData = false)
         {
-            var model = new TableViewModel(title, headers, rows, isResponsive, hasNumericData);
+            var model = new TableViewModel(title, rows, isResponsive, hasNumericData);
 
             return View(model);
         }
