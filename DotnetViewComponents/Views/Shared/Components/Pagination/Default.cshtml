@@ -6,7 +6,7 @@
     <nav class="nhsuk-pagination" role="navigation" aria-label="Pagination">
         <ul class="nhsuk-list nhsuk-pagination__list">
             <li class="nhsuk-pagination-item--previous">
-                @if (Model.CurrentPage != 1)
+                @if (Model.CurrentPage > 0)
                 {
                     <a class="nhsuk-pagination__link nhsuk-pagination__link--previous" href="@Model.PreviousUrl">
                         <span class="nhsuk-pagination__title">Previous</span>
@@ -19,7 +19,7 @@
                 }
             </li>
             <li class="nhsuk-pagination-item--next">
-                @if (Model.CurrentPage != Model.TotalPage)
+                @if (Model.CurrentPage < Model.TotalPage)
                 {
                     <a class="nhsuk-pagination__link nhsuk-pagination__link--next" href="@Model.NextUrl">
                         <span class="nhsuk-pagination__title">Next</span>
