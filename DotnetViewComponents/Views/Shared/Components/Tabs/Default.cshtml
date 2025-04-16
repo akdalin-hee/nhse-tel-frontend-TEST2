@@ -21,10 +21,11 @@
     @foreach (var tab in Model.TabsList)
     {
         <div class="nhsuk-tabs__panel @(!tab.IsActive ? "nhsuk-tabs__panel--hidden" : "")" id="@tab.Name.ToLower().Replace(" ", "-")">
-            <vc:table title="Prescription prepayment"
-                      headers="@tab.Table.Headers"
-                      rows="@tab.Table.Rows"
-                      is-responsive="false" />
+            @{
+                var modelType = tab.ContentModel.GetType();
+                var viewComponentName = modelType.Name.Replace("ViewModel", "");
+            }
+            @await Component.InvokeAsync(viewComponentName, tab.ContentModel)
         </div>
     }
 

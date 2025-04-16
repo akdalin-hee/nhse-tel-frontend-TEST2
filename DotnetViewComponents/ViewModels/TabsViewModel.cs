@@ -19,17 +19,17 @@ namespace DotnetViewComponents.ViewModels
     {
         public TabViewModel(
             string name,
-            TableViewModel table,
+            object  contentModel,
             bool isActive)
         {
             Name = name;
-            Table = table;
+            ContentModel = contentModel;
             IsActive = isActive;
         }
 
         public string Name { get; set; }
 
-        public TableViewModel Table { get; set; }
+        public object ContentModel { get; set; }
 
         public bool IsActive { get; set; }
     }
