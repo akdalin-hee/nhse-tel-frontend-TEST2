@@ -2,14 +2,11 @@ namespace DotnetViewComponents.ViewModels
 {
     public class InsetTextViewModel
     {
-        public InsetTextViewModel(string text, string? cssClass = null)
+        public InsetTextViewModel(string contentHtml)
         {
-            Text = text;
-            CssClass = cssClass;
+            ContentHtml = contentHtml;
         }
 
-        public string Text { get; set; }
-
-        public string? CssClass { get; set; }
+        public string ContentHtml { get; set; }
     }
 }

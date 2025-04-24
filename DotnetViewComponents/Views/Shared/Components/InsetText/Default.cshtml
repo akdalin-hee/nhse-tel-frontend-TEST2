@@ -1,7 +1,7 @@
 @using DotnetViewComponents.ViewModels
 @model InsetTextViewModel
 
-<div class="nhsuk-inset-text @Model.CssClass">
+<div class="nhsuk-inset-text">
     <span class="nhsuk-u-visually-hidden">Information: </span>
-    <p>@Html.Raw(Model.Text)</p>
+	<p>@Html.Raw(Model.ContentHtml)</p>
 </div>

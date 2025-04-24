@@ -1,17 +1,13 @@
 namespace DotnetViewComponents.ViewComponents
 {
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
     using DotnetViewComponents.ViewModels;
 
     public class InsetTextViewComponent : ViewComponent
     {
-        public IViewComponentResult Invoke(
-            string text,
-            string cssClass = null
-        )
+        public IViewComponentResult Invoke(string contentHtml)
         {
-            var model = new InsetTextViewModel(text, string.IsNullOrEmpty(cssClass) ? null : cssClass);
+            var model = new InsetTextViewModel(contentHtml);
             return View(model);
         }
     }
