@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Html;
+
 namespace DotnetViewComponents.ViewModels
 {
     public class TabsViewModel
@@ -19,17 +21,17 @@ namespace DotnetViewComponents.ViewModels
     {
         public TabViewModel(
             string name,
-            object  contentModel,
+            Func<object, IHtmlContent> content,
             bool isActive)
         {
             Name = name;
-            ContentModel = contentModel;
+            Content = content;
             IsActive = isActive;
         }
 
         public string Name { get; set; }
 
-        public object ContentModel { get; set; }
+        public Func<object, IHtmlContent> Content { get; set; }
 
         public bool IsActive { get; set; }
     }
