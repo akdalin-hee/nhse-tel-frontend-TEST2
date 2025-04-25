@@ -1,6 +1,18 @@
 @using DotnetViewComponents.ViewModels
 @model ButtonViewModel
 
-<button class="@Model.Styling" data-module="nhsuk-button" @(Model.PreventDoubleClick ? "data-prevent-double-click=true" : "") type="submit">
-    @Model.Text
-</button>
+@{
+	var isLink = !String.IsNullOrWhiteSpace(Model.Url);
+	var tagType = isLink ? "a" : "button";
+	var canSubmit = isLink ? "role=\"button\"" : "type =\"submit\"";
+	var undecorate = isLink ? "text-decoration: none;" : "";
+	var url = isLink ? $"href=\"{Model.Url}\"" : "";
+	var preventDoubleClick = @Model.PreventDoubleClick ? "data-prevent-double-click=true" : "";
+
+	var buttonOpening = $"<{tagType} class=\"{Model.Styling}\" data-module=\"nhsuk-button\" {url} {preventDoubleClick} {canSubmit} style=\"{undecorate}{Model.Style}\">";
+	var buttonClosing = $"</{tagType}>";
+}
+
+@Html.Raw(buttonOpening)
+	@Model.Text
+@Html.Raw(buttonClosing)
