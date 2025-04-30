@@ -6,12 +6,16 @@ namespace DotnetViewComponents.ViewModels
             string title,
             string description,
             string? actionName = null,
-            string? actionUrl = null)
+            string? aspAction = null,
+            string? aspController = null,
+            Dictionary<string, string>? aspRouteData = null)
         {
             Title = title;
             Description = description;
             ActionName = actionName;
-            ActionUrl = actionUrl;
+            AspAction = aspAction;
+            AspController = aspController;
+            AspRouteData = aspRouteData;
         }
 
         public string Title { get; set; }
@@ -20,6 +24,10 @@ namespace DotnetViewComponents.ViewModels
 
         public string? ActionName { get; set; }
 
-        public string? ActionUrl { get; set; }
+        public string? AspAction { get; set; }
+
+        public string? AspController { get; set; }
+
+        public Dictionary<string, string>? AspRouteData { get; set; }
     }
 }
