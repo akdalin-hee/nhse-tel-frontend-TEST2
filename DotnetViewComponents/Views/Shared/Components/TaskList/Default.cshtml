@@ -21,7 +21,7 @@
             <div class="nhsuk-task-list__name-and-hint">
                 @if (hasLink)
                 {
-                    <a class="nhsuk-link nhsuk-task-list__link" href="@task.Url" aria-describedby="@statusId">
+					<a class="nhsuk-link nhsuk-task-list__link" asp-controller="@task.AspController" asp-action="@task.AspAction" asp-all-route-data="@task.AspRouteData" aria-describedby="@statusId">
                         @task.Name
                     </a>
                 }
