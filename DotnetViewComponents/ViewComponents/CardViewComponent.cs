@@ -31,6 +31,7 @@ namespace DotnetViewComponents.ViewComponents
                 aspAction,
                 aspRouteData
             );
+            var loe = 43;
             return View(model);
         }
     }
