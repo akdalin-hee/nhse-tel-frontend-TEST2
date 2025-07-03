@@ -12,6 +12,7 @@ namespace DotnetViewComponents.ViewComponents
         public IViewComponentResult Invoke(List<(string Title, string spController, string aspAction, Dictionary<string, string>? aspRouteData)> links)
         {
             var model = new BreadcrumbsViewModel(links);
+            var one = 1;
 
             return View(model);
         }
