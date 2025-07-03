@@ -62,7 +62,7 @@ jobs:
         run: dotnet pack ${{ env.PROJECT_PATH  }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ '1.1.0' }}
 
       - name: Add GitHub NuGet source
-        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.PULLREQUEST_TOKEN  }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.PR_TOKEN  }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
       - name: Publish NuGet package to GitHub Packages
-        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.PULLREQUEST_TOKEN  }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.PR_TOKEN  }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate
