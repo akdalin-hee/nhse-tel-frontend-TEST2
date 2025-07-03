@@ -1,9 +1,6 @@
 name: Publish PKG
 
-on:
-  push:
-    branches:
-      - main  # Change as needed
+on: pull_request
 
 jobs:
   sonar_analysis:
