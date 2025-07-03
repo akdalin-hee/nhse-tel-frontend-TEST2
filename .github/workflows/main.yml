@@ -1,19 +1,21 @@
-name: Publsih PKG
+name: Publish PKG
 
-on: pull_request
+on:
+  push:
+    branches:
+      - main  # Change as needed
 
 jobs:
   sonar_analysis:
     name: Sonar analysis
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
   nuget_publish:
     name: Build, Pack, and Publish NuGet Package
     runs-on: ubuntu-latest
     needs: sonar_analysis
-    #if: github.event.pull_request.merged == true
     env:
       BUILD_CONFIG: 'Release'
       PROJECT_PATH: 'DotnetViewComponents/DotnetViewComponents.csproj'
@@ -27,16 +29,16 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore NuGet packages
-        run: dotnet restore ${{ env.PROJECT_PATH  }}
+        run: dotnet restore ${{ env.PROJECT_PATH }}
 
       - name: Build solution
-        run: dotnet build ${{ env.PROJECT_PATH  }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
+        run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack ${{ env.PROJECT_PATH  }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ '1.1.2' }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=1.1.2
 
       - name: Add GitHub NuGet source
-        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN  }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
       - name: Publish NuGet package to GitHub Packages
-        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN  }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate
