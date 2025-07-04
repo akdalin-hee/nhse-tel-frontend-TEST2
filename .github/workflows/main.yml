@@ -46,7 +46,7 @@ jobs:
           else
             # Replace slashes with dots or underscores for branch names
             sanitized_branch_name=$(echo "${GITHUB_REF_NAME}" | tr '/' '.')
-            echo "PACKAGE_VERSION=0.1.0-${sanitized_branch_name}" >> $GITHUB_ENV
+            echo "PACKAGE_VERSION=0.1.5-${sanitized_branch_name}" >> $GITHUB_ENV
           fi
 
       - name: Package nuget        
