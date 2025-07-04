@@ -43,7 +43,7 @@ jobs:
     env:
       BUILD_CONFIG: 'Release'
       PROJECT_PATH: 'DotnetViewComponents/DotnetViewComponents.csproj'
-      GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
