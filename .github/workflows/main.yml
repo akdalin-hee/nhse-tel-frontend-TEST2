@@ -59,8 +59,9 @@ jobs:
         run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.NUGET_TOKEN }} --store-password-in-clear-text --name githubPackages "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
       - name: Push generated package to GitHub registry
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source "githubPackages" --skip-duplicate
+        run: |
+          dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source "githubPackages" --skip-duplicate
+          echo "Package pushed to GitHub Packages"
 
       - name: Create Release
         id: create_release
