@@ -5,7 +5,7 @@ jobs:
   build:
     env:
       BUILD_CONFIG: 'Release'
-      PROJECT_PATH: 'DotnetViewComponents/DotnetViewComponents.csproj'
+      PROJECT_PATH: 'DotnetViewComponents.csproj'
     name: Build, Pack, and Publish NuGet Package
     runs-on: ubuntu-latest
     permissions:
