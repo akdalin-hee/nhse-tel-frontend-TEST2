@@ -1,41 +1,48 @@
-name: Continuous Integration
+name: Publish NuGet Package
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
-  build:
+  sonar_analysis:
+    name: Sonar analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+  nuget_publish:
+    name: Build, Pack, and Publish NuGet Package
+    runs-on: ubuntu-latest
+    needs: sonar_analysis
     env:
       BUILD_CONFIG: 'Release'
-      SOLUTION: 'DotnetViewComponents.sln'
-    name: Build and publish package
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-    strategy:
-      matrix:
-        dotnet-version: ['3.1.x']
+      PROJECT_PATH: 'DotnetViewComponents/DotnetViewComponents.csproj'
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          fetch-depth: 0
+          dotnet-version: '8.0.x'
 
-      - name: Install ICU library
-        run: sudo apt-get update && sudo apt-get install -y libicu-dev
+      - name: Restore NuGet packages
+        run: dotnet restore ${{ env.PROJECT_PATH }}
 
-      - name: Setup .NET Core SDK
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Build solution
+        run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
+      - name: Pack NuGet package
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=1.1.2
 
-      - name: Add GitHub registry
-        run: dotnet nuget add source --username 'dalin.akrasi' --password ${{ secrets.PULLREQUEST_TOKEN }} --store-password-in-clear-text --name githubPackages "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+      - name: Add GitHub NuGet source
+        run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
-      - name: Dotnet build
-        run: dotnet build DotnetViewComponents.sln --configuration release
-
-      - name: Package nuget
-        run: dotnet pack DotnetViewComponents.sln --configuration release -o:package /p:PackageVersion=${{ 14.3 }}
-
-      - name: Push generated package to GitHub registry
-        run: dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.PULLREQUEST_TOKEN }} --source "githubPackages" --skip-duplicate
+      - name: Publish NuGet package to GitHub Packages
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
