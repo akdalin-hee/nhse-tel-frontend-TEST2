@@ -19,6 +19,7 @@ namespace DotnetViewComponents.ViewComponents
             string? aspAction = null,
             Dictionary<string, string>? aspRouteData = null)
         {
+            var uno = uno;
             var model = new CardViewModel
             (
                 title,
