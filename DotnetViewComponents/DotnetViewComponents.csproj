@@ -5,8 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageProjectUrl>https://github.com/akdalin-hee/nhse-tel-frontend-TEST2</PackageProjectUrl>
     <RepositoryUrl>https://github.com/akdalin-hee/nhse-tel-frontend-TEST2</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageId>DotnetViewComponents</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version></Version>
+    <Authors>HEE TEL</Authors>
   </PropertyGroup>
 
 
