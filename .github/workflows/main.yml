@@ -27,30 +27,15 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
-        with:
-          versionSpec: '5.5.0'
-
-      - name: Determine Version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.7
-
-      - name: Display GitVersion outputs
-        run: |
-          echo "Major: ${{ steps.gitversion.outputs.major }}"
-          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
-          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
-          echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
 
       - name: Add GitHub registry
-        run: dotnet nuget add source --username 'kevin.whittaker' --password ${{ secrets.PULLREQUEST_TOKEN }} --store-password-in-clear-text --name githubPackages "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
+        run: dotnet nuget add source --username 'dalin.akrasi' --password ${{ secrets.PULLREQUEST_TOKEN }} --store-password-in-clear-text --name githubPackages "https://nuget.pkg.github.com/TechnologyEnhancedLearning/index.json"
 
       - name: Dotnet build
         run: dotnet build DotnetViewComponents.sln --configuration release
 
       - name: Package nuget
-        run: dotnet pack DotnetViewComponents.sln --configuration release -o:package /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+        run: dotnet pack DotnetViewComponents.sln --configuration release -o:package /p:PackageVersion=${{ 14.3 }}
 
       - name: Push generated package to GitHub registry
         run: dotnet nuget push ./package/*.nupkg --api-key ${{ secrets.PULLREQUEST_TOKEN }} --source "githubPackages" --skip-duplicate
