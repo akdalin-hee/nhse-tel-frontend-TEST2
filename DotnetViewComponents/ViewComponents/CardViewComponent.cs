@@ -31,6 +31,8 @@ namespace DotnetViewComponents.ViewComponents
                 aspAction,
                 aspRouteData
             );
+            var loe = 48;
+            var her = "herrr";
             return View(model);
         }
     }
