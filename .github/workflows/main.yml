@@ -15,31 +15,26 @@ jobs:
            dotnet-version: ['3.1.x']
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-           fetch-depth: 0
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '6.0.x'  # Specify the .NET version you are using
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
-        with:
-          versionSpec: '5.5.0'
-          
-      - name: Determine Version
-        id:   gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.7
 
-      - name: Display GitVersion outputs
+      - name: Run GitVersion
+        id: gitversion
+        run: gitversion /output json /showvariable SemVer
+
+      - name: Set version
         run: |
-          echo "Major: ${{ steps.gitversion.outputs.major }}"
-          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
-          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
-          echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
+          echo "##[set-output name=version;]${{ steps.gitversion.outputs.SemVer }}"
+
+          
 
       - name: Restore NuGet packages
         run: dotnet restore ${{ env.PROJECT_PATH }}
@@ -48,7 +43,7 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2  }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ steps.gitversion.outputs.version  }}
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
