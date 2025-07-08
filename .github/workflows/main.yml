@@ -31,8 +31,8 @@ jobs:
         run: gitversion /output json /showvariable SemVer
 
       - name: Set version
-        run: |
-          echo "##[set-output name=version;]${{ steps.gitversion.outputs.SemVer }}"
+        id: set_version
+        run: echo "version=${{ steps.gitversion.outputs.SemVer }}" >> $GITHUB_ENV
 
           
 
@@ -43,7 +43,7 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ steps.gitversion.outputs.version  }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ env.version  }}
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
