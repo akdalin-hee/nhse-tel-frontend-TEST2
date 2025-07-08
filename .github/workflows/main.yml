@@ -14,7 +14,7 @@ jobs:
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["6.0.x", "8.0.x"]
+        dotnet-version: ["6.0.x"]
 
     steps:
       - name: Checkout code
