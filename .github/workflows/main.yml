@@ -15,7 +15,7 @@ jobs:
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["6.0.x", "8.0.x"]
+        dotnet-version: ["3.1.x", "6.0.x", "8.0.x"]
         
 
     steps:
@@ -33,6 +33,7 @@ jobs:
         uses: gittools/actions/gitversion/setup@v1.1.1
         with:
           versionSpec: '5.x'
+          dotnet-version: "6.0.x"
 
       - name: Run GitVersion
         id: gitversion
