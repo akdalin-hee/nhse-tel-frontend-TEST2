@@ -12,7 +12,7 @@ jobs:
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["3.1.x"]
+        dotnet-version: ["3.1.x", "6.0.x"]
 
     steps:
       - name: Checkout code
@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
