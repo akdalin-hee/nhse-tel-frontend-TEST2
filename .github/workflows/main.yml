@@ -6,12 +6,15 @@ jobs:
   nuget_publish:
     name: Build, Pack, and Publish NuGet Package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     env:
       BUILD_CONFIG: "Release"
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["3.1.x", "6.0.x"]
+        dotnet-version: ["6.0.x", "8.0.x"]
 
     steps:
       - name: Checkout code
@@ -19,22 +22,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v1
+        uses: gittools/actions/gitversion/setup@v1.1.1
         with:
-          versionSpec: '6.x'
+          versionSpec: '5.x' # Or '6.x' for the latest GitVersion features
 
-      - name: Run GitVersion
+      - name: Determine Version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v1
+        uses: gittools/actions/gitversion/execute@v1.1.1
 
-      - name: Set version
-        run: echo "version=${{ steps.gitversion.outputs.SemVer }}" >> $GITHUB_ENV
+      - name: Display GitVersion outputs
+        run: echo "Calculated Version:${{ steps.gitversion.outputs.semVer }}"
 
       - name: Restore NuGet packages
         run: dotnet restore ${{ env.PROJECT_PATH }}
