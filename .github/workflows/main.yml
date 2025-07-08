@@ -30,11 +30,10 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install GitVersion
+        if: matrix.dotnet-version != '3.1.x'
         uses: gittools/actions/gitversion/setup@v1.1.1
         with:
           versionSpec: '5.x'
-          dotnet-version: ${{ matrix.dotnet-version }}
-          ignore: "3.1.x"
 
       - name: Run GitVersion
         id: gitversion
