@@ -37,7 +37,11 @@ jobs:
         uses: gittools/actions/gitversion/execute@v1.1.1
 
       - name: Display GitVersion outputs
-        run: echo "Calculated Version:${{ steps.gitversion.outputs.semVer }}"
+        run: |
+          echo "Major: ${{ steps.gitversion.outputs.major }}"
+          echo "Minor: ${{ steps.gitversion.outputs.minor }}"
+          echo "Patch: ${{ steps.gitversion.outputs.patch }}"
+          echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
 
       - name: Setup .NET SDK for Building
         uses: actions/setup-dotnet@v4
@@ -51,7 +55,7 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ env.version }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2  }}
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
