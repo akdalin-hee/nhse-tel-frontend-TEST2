@@ -6,13 +6,17 @@ jobs:
   nuget_publish:
     name: Build, Pack, and Publish NuGet Package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
     # if: github.event.pull_request.merged == true
     env:
       BUILD_CONFIG: "Release"
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["3.1.x", "6.0.x"]
+        dotnet-version: ["3.1.x", "6.0.x", "8.0.x"]
+        
 
     steps:
       - name: Checkout code
