@@ -14,7 +14,7 @@ jobs:
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["6.0.x"]
+        dotnet-version: ["6.0.x", "8.0.x"]
 
     steps:
       - name: Checkout code
@@ -25,7 +25,7 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: 6.0.x
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v1.1.1
@@ -38,6 +38,11 @@ jobs:
 
       - name: Display GitVersion outputs
         run: echo "Calculated Version:${{ steps.gitversion.outputs.semVer }}"
+
+      - name: Setup .NET SDK for Building
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
       - name: Restore NuGet packages
         run: dotnet restore ${{ env.PROJECT_PATH }}
