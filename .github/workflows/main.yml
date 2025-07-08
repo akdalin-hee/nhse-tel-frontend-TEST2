@@ -24,7 +24,7 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.7
+        uses: gittools/actions/gitversion/setup@v0.9.8
 
       - name: Run GitVersion
         id: gitversion
