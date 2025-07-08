@@ -9,14 +9,12 @@ jobs:
     permissions:
       contents: write
       packages: write
-    # if: github.event.pull_request.merged == true
     env:
       BUILD_CONFIG: "Release"
       PROJECT_PATH: "DotnetViewComponents/DotnetViewComponents.csproj"
     strategy:
       matrix:
-        dotnet-version: ["3.1.x", "6.0.x", "8.0.x"]
-        
+        dotnet-version: ["6.0.x", "8.0.x"]
 
     steps:
       - name: Checkout code
@@ -24,25 +22,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Install GitVersion
-        if: matrix.dotnet-version != '3.1.x'
         uses: gittools/actions/gitversion/setup@v1.1.1
         with:
-          versionSpec: '5.x'
+          versionSpec: '6.x'
 
-      - name: Run GitVersion
-        if: matrix.dotnet-version != '3.1.x'
+      - name: Determine Version
         id: gitversion
-        run: gitversion /output json /showvariable SemVer
+        uses: gittools/actions/gitversion/execute@v1.1.1
 
-      - name: Set version
-        id: set_version
-        run: echo "version=${{ steps.gitversion.outputs.SemVer }}" >> $GITHUB_ENV
+      - name: Display GitVersion outputs
+        run: echo "Calculated Version:${{ steps.gitversion.outputs.semVer }}"
 
       - name: Restore NuGet packages
         run: dotnet restore ${{ env.PROJECT_PATH }}
@@ -51,10 +46,10 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ env.version  }}
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ env.version }}
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
       - name: Publish NuGet package to GitHub Packages
-        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.PULLREQUEST_TOKEN }} --source "github" --skip-duplicate
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
