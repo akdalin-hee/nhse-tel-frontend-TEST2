@@ -1,5 +1,5 @@
 {
-  "name": "nhse-tel-frontend",
+  "name": "@TechnologyEnhancedLearning/nhse-tel-frontend",
   "version": "0.0.2",
   "description": "NHS England TEL frontend contains the code you need to start building user interfaces for NHS websites and services.",
   "engines": {
