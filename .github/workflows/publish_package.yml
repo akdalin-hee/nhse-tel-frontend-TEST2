@@ -1,13 +1,11 @@
 name: Publish NuGet Package
 
-on:
-  pull_request:
-      types: [closed]
+on: push
 
 jobs:
   nuget_publish:
     name: Build, Pack, and Publish NuGet Package
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     permissions:
       contents: write
