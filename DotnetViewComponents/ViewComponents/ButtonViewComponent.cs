@@ -18,7 +18,7 @@ namespace DotnetViewComponents.ViewComponents
             bool preventDoubleClick = false)
         {
             var model = new ButtonViewModel(text, aspController, aspAction, aspRouteData, styling, style, preventDoubleClick);
-            var numer = 132;
+            var numer = 1222;
             var f = "rer";
             return View(model);
         }
