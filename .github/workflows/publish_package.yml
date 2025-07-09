@@ -48,7 +48,10 @@ jobs:
       - name: Use version in another step
         run: |
           VERSION="${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
-          echo "The version is $VERSION"
+          id: set_version
+          run: |
+            VERSION="${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Debug GitVersion outputs test
         run: |
