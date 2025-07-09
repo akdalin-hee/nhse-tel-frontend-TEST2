@@ -73,7 +73,6 @@
   },
   "publishConfig": {
     "access": "public"
-    "registry": "https://npm.pkg.github.com/"
   },
   "eslintConfig": {
     "extends": "./tests/linters/.eslintrc.js"
