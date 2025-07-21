@@ -24,49 +24,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.3.x
-
-      - name: Ensure NuGet source
-        run: dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org --store-password-in-clear-text || true
+          dotnet-version: '8.0.x'   # Specify your target .NET version
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v6.3.0
+        uses: gittools/actions/gitversion/setup@v3.2.1
         with:
-          versionSpec: '6.3.x'
-      
+          versionSpec: '6.3.0'
+
       - name: Determine Version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v6.3.0
+        uses: gittools/actions/gitversion/execute@v3.2.1
         with:
           useConfigFile: true
-          configFilePath: GitVersion.yml
-          additionalArguments: '--verbosity debug'
 
-
-
-
-      - name: Display GitVersion outputs
+      - name: Display versioning outputs
         run: |
-            echo "Major: ${{ steps.gitversion.outputs.major }}"
-            echo "Minor: ${{ steps.gitversion.outputs.minor }}"
-            echo "Patch: ${{ steps.gitversion.outputs.patch }}"
-
-      - name: Use version in another step
-        run: |
-          VERSION="${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          
-      - name: Debug GitVersion outputs test
-        run: |
-          echo "All outputs: ${{ toJson(steps.gitversion.outputs) }}"
-
-      - name: Setup .NET SDK for Building
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
+          echo "NuGet Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
+          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
 
       - name: Restore NuGet packages
         run: dotnet restore $PROJECT_PATH
