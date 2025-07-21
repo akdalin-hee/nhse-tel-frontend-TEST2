@@ -42,8 +42,9 @@ jobs:
         uses: gittools/actions/gitversion/execute@v3.2.1
         with:
           useConfigFile: true
-          configFilePath: GitVersion.yml   # adjust path if not in root
-          # Remove additionalArguments!
+          configFilePath: GitVersion.yml
+          additionalArguments: '--verbosity debug'
+
 
 
 
