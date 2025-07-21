@@ -33,13 +33,13 @@ jobs:
         run: dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org --store-password-in-clear-text || true
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.0.1
+        uses: gittools/actions/gitversion/setup@v6.3.0
         with:
           versionSpec: '6.3.x'
       
       - name: Determine Version
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v4.0.1
+        uses: gittools/actions/gitversion/execute@v6.3.0
         with:
           useConfigFile: true
           configFilePath: GitVersion.yml
