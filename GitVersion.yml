@@ -1,9 +1,8 @@
-mode: Mainline
+mode: ContinuousDeployment
 branches:
   main:
-    regex: ^main$
-    increment: Inherit
-commit-message-incrementing: Enabled
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
+    tag: ''
+    increment: Patch
+  develop:
+    tag: 'beta'
+    increment: Minor
