@@ -37,6 +37,9 @@ jobs:
         with:
           versionSpec: '6.0.x'
 
+      - name: Print GitVersion.yml
+        run: cat GitVersion.yml
+
       - name: Determine Version
         id: gitversion
         uses: gittools/actions/gitversion/execute@v1.1.1
