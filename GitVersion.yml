@@ -3,7 +3,6 @@ branches:
   main:
     regex: ^main$
     increment: Inherit
-tag-pre-release-weight: 60000
 commit-message-incrementing: Enabled
 major-version-bump-message: '\+semver:\s?(breaking|major)'
 minor-version-bump-message: '\+semver:\s?(feature|minor)'
