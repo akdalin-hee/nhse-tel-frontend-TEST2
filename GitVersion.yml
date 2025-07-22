@@ -1,9 +1,6 @@
 mode: Mainline
 branches:
   main:
-    regex: ^main$
-    increment: Inherit
-commit-message-incrementing: Enabled
-major-version-bump-message: '\+semver:\s?(breaking|major)'
-minor-version-bump-message: '\+semver:\s?(feature|minor)'
-patch-version-bump-message: '\+semver:\s?(fix|patch)'
+    increment: Patch
+    is-mainline: true
+    track-merge-target: false
