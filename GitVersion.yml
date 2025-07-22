@@ -4,7 +4,7 @@ branches:
   main:
     regex: ^main$|^master$
     increment: Patch
-    prevent-increment-of-merged-branch-version: true
+    prevent-increment-of-merged-branch: true
     is-mainline: true         # Note: If you get an error on this line, remove it as it might be deprecated
     track-merge-target: false
     label: ''
