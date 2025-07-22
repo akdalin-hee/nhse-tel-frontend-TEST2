@@ -4,7 +4,7 @@ branches:
   main:
     regex: ^main$|^master$
     increment: Patch
-    prevent-increment-of-merged-branch: true
+    prevent-increment-when-branch-merged: true
     is-mainline: true         # Note: If you get an error on this line, remove it as it might be deprecated
     track-merge-target: false
     label: ''
@@ -13,7 +13,7 @@ branches:
   feature:
     regex: ^features?[/-]
     increment: Inherit
-    prevent-increment-of-merged-branch: true
+    prevent-increment-when-branch-merged: true
     track-merge-target: true
     label: 'alpha'
     pre-release-weight: 30000
@@ -21,7 +21,7 @@ branches:
   release:
     regex: ^releases?[/-]
     increment: Patch
-    prevent-increment-of-merged-branch: true
+    prevent-increment-when-branch-merged: true
     label: 'beta'
     pre-release-weight: 25000
     is-release-branch: true
@@ -29,7 +29,7 @@ branches:
   hotfix:
     regex: ^hotfix(es)?[/-]
     increment: Patch
-    prevent-increment-of-merged-branch: true
+    prevent-increment-when-branch-merged: true
     label: 'beta'
     pre-release-weight: 20000
     is-release-branch: true
@@ -39,13 +39,13 @@ branches:
     increment: Inherit
     label: 'PullRequest'
     pre-release-weight: 15000
-    prevent-increment-of-merged-branch: true
+    prevent-increment-when-branch-merged: true
     track-merge-target: false
 
   develop:
     regex: ^develop$
     increment: Minor
-    prevent-increment-of-merged-branch: true
+    prevent-increment-when-branch-merged: true
     label: 'alpha'
     pre-release-weight: 30000
     track-merge-target: false
