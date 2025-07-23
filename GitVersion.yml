@@ -3,3 +3,4 @@ branches:
     regex: ^main$|^master$
     increment: Patch
     label: ''
+    commit-message-incrementing: Enabled
