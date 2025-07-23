@@ -24,12 +24,12 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x'   # Specify your target .NET version
+          dotnet-version: '8.0.x'   # Specify your target .NET version
 
       - name: Install GitVersion
         uses: gittools/actions/gitversion/setup@v4.0.1
         with:
-          versionSpec: '5.x'
+          versionSpec: '7.x'
 
       - name: Determine Version
         id: gitversion
