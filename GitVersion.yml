@@ -1,6 +1,50 @@
+workflow: TrunkBased/preview1
+
 branches:
   main:
     regex: ^main$|^master$
     increment: Patch
+    prevent-increment-of-merged-branch: true
+    track-merge-target: false
     label: ''
-    commit-message-incrementing: Enabled
+    pre-release-weight: 55000
+
+  feature:
+    regex: ^features?[/-]
+    increment: Inherit
+    prevent-increment-of-merged-branch: true
+    track-merge-target: true
+    label: 'alpha'
+    pre-release-weight: 30000
+
+  release:
+    regex: ^releases?[/-]
+    increment: Patch
+    prevent-increment-of-merged-branch: true
+    label: 'beta'
+    pre-release-weight: 25000
+    is-release-branch: true
+
+  hotfix:
+    regex: ^hotfix(es)?[/-]
+    increment: Patch
+    prevent-increment-of-merged-branch: true
+    label: 'beta'
+    pre-release-weight: 20000
+    is-release-branch: true
+
+  pull-request:
+    regex: ^(pull|pr|pull-request)[/-]
+    increment: Inherit
+    label: 'PullRequest'
+    pre-release-weight: 15000
+    prevent-increment-of-merged-branch: true
+    track-merge-target: false
+
+  develop:
+    regex: ^develop$
+    increment: Minor
+    prevent-increment-of-merged-branch: true
+    label: 'alpha'
+    pre-release-weight: 30000
+    track-merge-target: false
