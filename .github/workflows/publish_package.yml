@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "NuGet Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
           echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
-          echo "Outputs: ${{ steps.gitversion.outputs }}"
+          echo "Outputs: ${{ toJson(steps.gitversion.outputs) }}"
 
       - name: Use version in another step
         run: |
