@@ -1,24 +1,4 @@
-workflow: GitHubFlow/v1
-
+mode: ContinuousDeployment
 branches:
   main:
-    regex: ^main$|^master$
     increment: Patch
-    label: ''
-    pre-release-weight: 55000
-    is-main-branch: true
-
-  develop:
-    regex: ^develop$
-    increment: Minor
-    label: 'alpha'
-    pre-release-weight: 30000
-    is-main-branch: true
-
-  pull-request:
-    regex: ^(pull|pr|pull-request)[/-]
-    increment: None # Changed from Inherit
-    label: 'PullRequest'
-    pre-release-weight: 15000
-    track-merge-target: false
-
