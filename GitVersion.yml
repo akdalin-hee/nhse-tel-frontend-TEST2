@@ -6,37 +6,18 @@ branches:
     increment: Patch
     label: ''
     pre-release-weight: 55000
-
-  feature:
-    regex: ^features?[/-]
-    increment: Inherit
-    label: 'alpha'
-    pre-release-weight: 30000
-
-  release:
-    regex: ^releases?[/-]
-    increment: Patch
-    label: 'beta'
-    pre-release-weight: 25000
-    is-release-branch: true
-
-  hotfix:
-    regex: ^hotfix(es)?[/-]
-    increment: Patch
-    label: 'beta'
-    pre-release-weight: 20000
-    is-release-branch: true
-
-  pull-request:
-    regex: ^(pull|pr|pull-request)[/-]
-    increment: Inherit
-    label: 'PullRequest'
-    pre-release-weight: 15000
-    track-merge-target: false
+    is-main-branch: true
 
   develop:
     regex: ^develop$
     increment: Minor
     label: 'alpha'
     pre-release-weight: 30000
+    is-main-branch: true
+
+  pull-request:
+    regex: ^(pull|pr|pull-request)[/-]
+    increment: Patch   # avoid "Inherit"
+    label: 'PullRequest'
+    pre-release-weight: 15000
     track-merge-target: false
