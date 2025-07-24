@@ -14,6 +14,7 @@ namespace DotnetViewComponents.ViewComponents
             IEnumerable<ContentsListItemViewModel> listItems)
         {
             var model = new ContentsListViewModel(name, listItems);
+            var min = "assume!";
 
             return View(model);
         }

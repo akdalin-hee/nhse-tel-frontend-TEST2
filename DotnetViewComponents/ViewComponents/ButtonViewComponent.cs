@@ -15,12 +15,13 @@ namespace DotnetViewComponents.ViewComponents
             string? aspController = null,
             string? aspAction = null,
             Dictionary<string, string>? aspRouteData = null,
-            bool preventDoubleClick = false)
+            bool preventDoubleClick = true)
         {
             var model = new ButtonViewModel(text, aspController, aspAction, aspRouteData, styling, style, preventDoubleClick);
             var numer = 1222;
             var f = "rer";
             var di = "ciao43";
+            var anoth = "PATCH 12";
             return View(model);
         }
     }
