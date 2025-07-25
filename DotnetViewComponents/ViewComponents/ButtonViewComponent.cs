@@ -22,7 +22,7 @@ namespace DotnetViewComponents.ViewComponents
             var f = "rer";
             var di = "ciao44";
             var anoth = "PATCH 12";
-            return View(model);
+            return View(moel);
         }
     }
 }
