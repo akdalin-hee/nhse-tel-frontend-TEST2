@@ -1,29 +1,74 @@
-name: Publish NuGet Package
+name: Pull request
 
-on: [push, pull_request]
+on: pull_request
 
 jobs:
-  publish:
+  sonar_analysis:
+    name: Sonar analysis
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-    
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0 # Fetches all history for GitVersion to analyze
+          node-version: 20
+          cache: 'npm'
 
-      - name: 'Install GitVersion'
-        uses: gittools/actions/gitversion/setup@v0.9.15
+      - name: Install dependencies
+        run: npm install
+
+      # - name: Sonar analysis
+      #   uses: sonarsource/sonarcloud-github-action@master
+      #   with:
+      #     projectBaseDir: .
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Run linting
+        run: npm run lint
+
+      # - name: Run tests
+      #   run: npm test
+
+      # - name: Run backstop
+      #   run: npm run backstop:ci
+
+  nuget_publish:
+    name: Build, Pack, and Publish NuGet Package
+    runs-on: ubuntu-latest
+    needs: sonar_analysis
+    #if: github.event.pull_request.merged == true
+    env:
+      BUILD_CONFIG: 'Release'
+      PROJECT_PATH: 'DotnetViewComponents/DotnetViewComponents.csproj'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          versionSpec: '5.x'
+          dotnet-version: '8.0.x'
 
-      - name: 'Determine Version'
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.15
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      - name: Setup .NET Core 3.1
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '3.1.x'
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.12.0'
+            
+      - name: Determine Version
+        id:   gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
 
       - name: Display GitVersion outputs
         run: |
@@ -32,15 +77,17 @@ jobs:
           echo "Patch: ${{ steps.gitversion.outputs.patch }}"
           echo "NuGetVersionV2: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
 
-      - name: 'Setup .NET'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0.x'
+      - name: Restore NuGet packages
+        run: dotnet restore ${{ env.PROJECT_PATH  }}
 
-      - name: 'Build and Pack'
-        run: |
-          dotnet build ${{ env.PROJECT_PATH  }} --configuration Release
-          dotnet pack ${{ env.PROJECT_PATH  }} --configuration Release -p:Version=${{ steps.gitversion.outputs.semVer }} -o ./output
+      - name: Build solution
+        run: dotnet build ${{ env.PROJECT_PATH  }} --configuration ${{ env.BUILD_CONFIG }} --no-restore
 
-      - name: 'Publish to GitHub Packages'
-        run: dotnet nuget push "./output/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}"
+      - name: Pack NuGet package
+        run: dotnet pack ${{ env.PROJECT_PATH  }} --configuration ${{ env.BUILD_CONFIG }} --no-build -o out /p:PackageVersion=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+
+      - name: Add GitHub NuGet source
+      - run: dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.RELEASE_TOKEN  }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+      - name: Publish NuGet package to GitHub Packages
+        run: dotnet nuget push out/*.nupkg --api-key ${{ secrets.RELEASE_TOKEN }} --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --skip-duplicate
