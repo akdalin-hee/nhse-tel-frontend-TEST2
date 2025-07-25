@@ -26,25 +26,21 @@ jobs:
         with:
           dotnet-version: '8.0.x'   # Specify your target .NET version
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4.0.1
-        with:
-          versionSpec: '6.3.0'
-
-      - name: Determine Version
-        id: gitversion
-        uses: gittools/actions/gitversion/execute@v4.0.1
-
-      - name: Display versioning outputs
+      - name: 'Get latest version tag'
+        id: get_version
         run: |
-          echo "NuGet Version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}"
-          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
-          echo "Outputs: ${{ toJson(steps.gitversion.outputs) }}"
+          # Get the latest tag, default to v0.0.0 if no tags exist
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
 
-      - name: Use version in another step
+      - name: 'Increment patch version'
+        id: increment_version
         run: |
-          VERSION="${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          # Increment the patch version (the last number)
+          new_version=$(echo "${{ env.LATEST_TAG }}" | awk -F. -v OFS=. '{$NF++;print}')
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+          echo "::set-output name=version::${new_version#v}"
+
 
       - name: Restore NuGet packages
         run: dotnet restore $PROJECT_PATH
@@ -53,7 +49,7 @@ jobs:
         run: dotnet build $PROJECT_PATH --configuration $BUILD_CONFIG --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack $PROJECT_PATH --configuration $BUILD_CONFIG --no-build -o out /p:PackageVersion=$VERSION
+        run: dotnet pack $PROJECT_PATH --configuration $BUILD_CONFIG --no-build -o out /p:PackageVersion=${{ steps.increment_version.outputs.version }}
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password $GITHUB_TOKEN --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
