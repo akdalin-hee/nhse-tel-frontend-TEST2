@@ -11,6 +11,7 @@ namespace DotnetViewComponents.ViewComponents
             List<FieldViewModel> fieldList)
         {
             var model = new FieldsetViewModel(title, fieldList);
+            var er = "er";
 
             return View(model);
         }
