@@ -12,6 +12,7 @@ namespace DotnetViewComponents.ViewComponents
         {
             var model = new FieldsetViewModel(title, fieldList);
             var er = "er";
+            var ee = "23";
 
             return View(model);
         }
