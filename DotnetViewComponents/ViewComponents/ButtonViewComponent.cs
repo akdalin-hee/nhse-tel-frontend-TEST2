@@ -21,7 +21,7 @@ namespace DotnetViewComponents.ViewComponents
             var numer = 1222;
             var f = "rer";
             var di = "ciao43";
-            var anoth = "PATCH 12";
+            var anoth = "PATCH 13";
             return View(model);
         }
     }
