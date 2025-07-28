@@ -15,6 +15,7 @@ namespace DotnetViewComponents.ViewComponents
             bool isVerticallyAligned = true)
         {
             var model = new FooterViewModel(copyright, footerGroupList, isVerticallyAligned);
+            var e = 5;
 
             return View(model);
         }
