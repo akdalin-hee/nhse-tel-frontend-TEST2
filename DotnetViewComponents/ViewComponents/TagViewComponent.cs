@@ -13,6 +13,7 @@ namespace DotnetViewComponents.ViewComponents
             string styling = TagStyle.INPROGRESS)
         {
             var model = new TagViewModel(name, styling);
+            var f = 6;
 
             return View(model);
         }
