@@ -1,6 +1,6 @@
 name: Publish NuGet Package
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   nuget_publish:
