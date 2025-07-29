@@ -15,6 +15,7 @@ namespace DotnetViewComponents.ViewComponents
             (
                 summaryListItem,
                 hasBorder
+            );
             
             var d = 4;
 
