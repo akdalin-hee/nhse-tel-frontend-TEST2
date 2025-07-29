@@ -15,6 +15,7 @@ namespace DotnetViewComponents.ViewComponents
             string? additionalAttributes = null)
         {
             var model = new ImageViewModel(src, alt, caption, additionalAttributes);
+            var c = 3;
 
             return View(model);
         }
