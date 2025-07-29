@@ -11,6 +11,7 @@ namespace DotnetViewComponents.ViewComponents
         public IViewComponentResult Invoke(string contentHtml)
         {
             var model = new InsetTextViewModel(contentHtml);
+            var m = 23;
             return View(model);
         }
     }
