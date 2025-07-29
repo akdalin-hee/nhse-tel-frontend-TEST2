@@ -14,6 +14,7 @@ namespace DotnetViewComponents.ViewComponents
         )
         {
             var model = new DetailsViewModel(summary, content);
+            var r = 55;
 
             return View(model);
         }
