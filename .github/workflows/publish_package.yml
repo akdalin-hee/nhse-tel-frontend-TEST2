@@ -2,16 +2,19 @@ name: Publish NuGet Package
 
 on: [push, pull_request]
 jobs:
-  version-bump:
+  versioning:
     name: Bump test
     #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
-      new_version: ${{ steps.version-bump.outputs.next-version }}
+      new_version: ${{ steps.set_version.outputs.version }}  # Job output to be consumed later
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
+      #################################################
+      # 1. Fetch latest NuGet package version from GitHub Packages
+      #################################################
       - name: Fetch latest NuGet version from GitHub Packages
         id: latest_nuget_version
         env:
@@ -32,7 +35,7 @@ jobs:
           LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name // "0.0.0"')
 
           echo "Latest NuGet package version found: $LATEST_VERSION"
-          echo "::set-output name=version::$LATEST_VERSION"
+          echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
 
       - name: Echo latest NuGet version
         run: echo "Current version:${{ steps.latest_nuget_version.outputs.version }}"
@@ -64,7 +67,7 @@ jobs:
           # because version baseline is fetched from Packages.
 
           echo "Will increment: $TYPE"
-          echo "::set-output name=TYPE::$TYPE"
+          echo "TYPE=$TYPE" >> $GITHUB_OUTPUT
 
       #################################################
       # 3. Bump new semantic version
@@ -76,9 +79,15 @@ jobs:
           current-version: ${{ steps.latest_nuget_version.outputs.version }}
           version-fragment: ${{ steps.increment_type.outputs.TYPE }}
 
-      - name: Set version output for this job
-        run: echo "::set-output name=next-version::${{ steps.bump_version.outputs.next-version }}"
-            echo "Next version:$GITHUB_OUTPUT"
+      - name: Echo new version
+        run: echo "Next version:${{ steps.bump_version.outputs.next-version }}"
+
+      #################################################
+      # 4. Set new version as job output for downstream jobs
+      #################################################
+      - name: Set version output for job
+        id: set_version
+        run: echo "version=${{ steps.bump_version.outputs.next-version }}" >> $GITHUB_OUTPUT
           
 
   nuget_publish:
