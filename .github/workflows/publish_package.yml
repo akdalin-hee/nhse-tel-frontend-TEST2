@@ -13,31 +13,27 @@ jobs:
       - name: Fetch latest NuGet version from GitHub Packages
         id: latest_nuget_version
         env:
-          REPO: "main"
-          NUGET_PACKAGE: "DotnetViewComponents"
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
+          NUGET_PACKAGE: "DotnetViewComponents"
         run: |
-          echo "Fetching latest NuGet version for $NUGET_PACKAGE in $REPO"
+          echo "Fetching latest NuGet version for package '$NUGET_PACKAGE' in owner '$OWNER'"
+          
+          # For org-owned packages, use this API endpoint:
+          API_URL="https://api.github.com/users/$OWNER/packages/nuget/$NUGET_PACKAGE/versions"
+          
           VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/users/$OWNER/packages/nuget/$NUGET_PACKAGE/versions")
-          LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name')
-          echo "Latest NuGet package version: $LATEST_VERSION"
+            "$API_URL")
+          
+          # Extract the first (latest) version name from JSON array or set default "0.0.0"
+          LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name // "0.0.0"')
+
+          echo "Latest NuGet package version found: $LATEST_VERSION"
           echo "::set-output name=version::$LATEST_VERSION"
 
-
-      #################################################
-      # 1. Get latest release version (git-based or release-based)
-      #################################################
-      - name: Get latest release version
-        id: current_version
-        uses: PaulHatch/semantic-version@v5.4.0
-        with:
-          tag_prefix: "v"
-          # This Action is maintained, used by many, and updated recently (Jul 2025)[3][15]
-      - name: Echo latest version
-        run: echo "Current version:${{ steps.current_version.outputs.version }}"
+      - name: Echo latest NuGet version
+        run: echo "Current version:${{ steps.latest_nuget_version.outputs.version }}"
 
       #################################################
       # 2. Decide increment type: patch, minor, major
@@ -62,22 +58,8 @@ jobs:
             TYPE="patch"
           fi
 
-          # Major version increase option: if the new tag with different 'major' was just created in this PR
-          NEW_MAJOR_TAG=""
-          git fetch --tags
-          LATEST_MAJOR="$(echo ${{ steps.current_version.outputs.version }} | cut -d'.' -f1)"
-          for tag in $(git tag 'v*'); do
-            TAG_MAJOR="$(echo $tag | cut -d'.' -f1 | sed 's/v//')"
-            if [[ "$TAG_MAJOR" -gt "$LATEST_MAJOR" ]]; then
-              NEW_MAJOR_TAG="$tag"
-              break
-            fi
-          done
-
-          if [[ "$NEW_MAJOR_TAG" != "" ]]; then
-            TYPE="major"
-            echo "Detected new major tag: $NEW_MAJOR_TAG"
-          fi
+          # Major version bump triggered by new major tag is skipped here
+          # because version baseline is fetched from Packages.
 
           echo "Will increment: $TYPE"
           echo "::set-output name=TYPE::$TYPE"
@@ -89,11 +71,11 @@ jobs:
         id: bump_version
         uses: christian-draeger/increment-semantic-version@1.2.3
         with:
-          current-version: ${{ steps.current_version.outputs.version }}
+          current-version: ${{ steps.latest_nuget_version.outputs.version }}
           version-fragment: ${{ steps.increment_type.outputs.TYPE }}
 
       - name: Echo new version
-        run: echo "Next version:${{ steps.bump_version.outputs.next-version }}"
+        run: echo "Next version: ${{ steps.bump_version.outputs.next-version }}"
           
 
   nuget_publish:
