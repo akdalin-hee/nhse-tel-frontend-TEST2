@@ -6,6 +6,8 @@ jobs:
     name: Bump test
     #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.version-bump.outputs.next-version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,8 +76,9 @@ jobs:
           current-version: ${{ steps.latest_nuget_version.outputs.version }}
           version-fragment: ${{ steps.increment_type.outputs.TYPE }}
 
-      - name: Echo new version
-        run: echo "Next version:${{ steps.bump_version.outputs.next-version }}"
+      - name: Set version output for this job
+        run: echo "::set-output name=next-version::${{ steps.version_bump.outputs.next-version }}"
+            echo "Next version:$GITHUB_OUTPUT"
           
 
   nuget_publish:
@@ -128,7 +131,7 @@ jobs:
         run: dotnet build $PROJECT_PATH --configuration $BUILD_CONFIG --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack $PROJECT_PATH --configuration $BUILD_CONFIG --no-build -o out /p:PackageVersion=$VERSION
+        run: dotnet pack $PROJECT_PATH --configuration $BUILD_CONFIG --no-build -o out /p:PackageVersion=${{needs.version_bump.outputs.next_version}}
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password $GITHUB_TOKEN --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
