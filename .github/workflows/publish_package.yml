@@ -124,6 +124,9 @@ jobs:
           VERSION="${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
+      - name: Set version env
+        run: echo "NEXT_VERSION=${{ needs.versioning.outputs.new_version }}"
+
       - name: Restore NuGet packages
         run: dotnet restore $PROJECT_PATH
 
@@ -131,7 +134,7 @@ jobs:
         run: dotnet build $PROJECT_PATH --configuration $BUILD_CONFIG --no-restore
 
       - name: Pack NuGet package
-        run: dotnet pack $PROJECT_PATH --configuration $BUILD_CONFIG --no-build -o out /p:PackageVersion=${{needs.version_bump.outputs.next_version}}
+        run: dotnet pack $PROJECT_PATH --configuration $BUILD_CONFIG --no-build -o out /p:PackageVersion=$NEXT_VERSION
 
       - name: Add GitHub NuGet source
         run: dotnet nuget add source --username ${{ github.actor }} --password $GITHUB_TOKEN --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
