@@ -13,7 +13,7 @@ jobs:
       - name: Fetch latest NuGet version from GitHub Packages
         id: latest_nuget_version
         env:
-          REPO: ${{ github.repository }}
+          REPO: "main"
           NUGET_PACKAGE: "DotnetViewComponents"
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
