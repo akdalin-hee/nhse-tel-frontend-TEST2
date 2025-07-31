@@ -19,12 +19,19 @@ jobs:
           OWNER: ${{ github.repository_owner }}
         run: |
           echo "Fetching latest NuGet version for $NUGET_PACKAGE in $REPO"
-          VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "https://api.github.com/orgs/$OWNER/packages/nuget/$NUGET_PACKAGE/versions")
-          LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name')
-          echo "Latest NuGet package version: $LATEST_VERSION"
-          echo "::set-output name=version::$LATEST_VERSION"
+          API_URL="https://api.github.com/orgs/$OWNER/packages/nuget/$NUGET_PACKAGE/versions"
+          VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github.v3+json" "$API_URL")
+          echo "Raw API response: $VERSIONS_JSON"
+          # Ensure response is an array
+          if echo "$VERSIONS_JSON" | jq 'type == "array"' | grep -q true; then
+            LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name')
+            echo "Latest NuGet package version: $LATEST_VERSION"
+            echo "::set-output name=version::$LATEST_VERSION"
+          else
+            echo "Could not retrieve version array. Raw response:"
+            echo "$VERSIONS_JSON"
+            exit 1
+          fi
 
 
       #################################################
