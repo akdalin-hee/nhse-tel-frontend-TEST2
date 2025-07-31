@@ -15,7 +15,7 @@ jobs:
       #################################################
       - name: Get latest release version
         id: current_version
-        uses: PaulHatch/semantic-version@v5.4.x
+        uses: PaulHatch/semantic-version@v5.4.0
         with:
           tag_prefix: "v"
           # This Action is maintained, used by many, and updated recently (Jul 2025)[3][15]
