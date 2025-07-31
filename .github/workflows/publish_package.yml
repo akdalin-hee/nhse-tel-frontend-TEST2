@@ -134,7 +134,9 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Set version env
-        run: echo "NEXT_VERSION=${{ needs.versioning.outputs.new_version }}"
+        run: |
+          echo "Using version from versioning job: ${{ needs.versioning.outputs.new_version }}"
+          echo "NEXT_VERSION=${{ needs.versioning.outputs.new_version }}"
 
       - name: Restore NuGet packages
         run: dotnet restore $PROJECT_PATH
