@@ -1,8 +1,68 @@
 name: Publish NuGet Package
 
 on: [push, pull_request]
-
 jobs:
+  version-bump:
+    name: Bump test
+    #if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get branch name
+        run: |
+          echo "BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo ${GITHUB_REF#refs/heads/})}"
+          echo "BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo ${GITHUB_REF#refs/heads/})}" >> $GITHUB_ENV
+
+      # Detect version bump type
+      - id: get_bump
+        run: |
+          BUMP="patch"
+          echo "Initial BUMP=$BUMP"
+          if [[ "${BRANCH_NAME}" =~ ^feature/ ]]; then
+            BUMP="minor"
+            echo "Branch is feature/, setting BUMP=minor"
+          fi
+
+          # Check commit message for MAJOR/BREAKING
+          MERGE_COMMIT=$(git log -1 --pretty=%B)
+          echo "Merge commit message:"
+          echo "$MERGE_COMMIT"
+          
+          if echo "$MERGE_COMMIT" | grep -qiE "(MAJOR|BREAKING CHANGE)"; then
+            BUMP="major"
+            echo "Found MAJOR or BREAKING CHANGE in commit message, setting BUMP=major"
+          fi
+
+          # Check PR labels for "Major"
+          LABELS="${{ toJson(github.event.pull_request.labels) }}"
+          if echo "$LABELS" | grep -qi major; then
+            BUMP="major"
+            echo "PR labeled major, setting BUMP=major"
+          fi
+
+          echo "Final BUMP=$BUMP"
+          echo "BUMP=$BUMP" >> $GITHUB_ENV
+
+      # Bump version using community action (choose one)
+      - name: Bump version
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          tag_prefix: "v"
+          bump_level: ${{ env.BUMP }}
+
+      # Optional: Create a new Release
+      - name: Create Release
+        if: ${{ steps.semantic-version.outputs.new_tag != '' }}
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.semantic-version.outputs.new_tag }}
+          release_name: Release ${{ steps.semantic-version.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+
   nuget_publish:
     name: Build, Pack, and Publish NuGet Package
     # if: github.event.pull_request.merged == true
