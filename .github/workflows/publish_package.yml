@@ -50,7 +50,8 @@ jobs:
         uses: paulhatch/semantic-version@v5.4.0
         with:
           tag_prefix: "v"
-          bump_level: ${{ env.BUMP }}
+          major_pattern: "(MAJOR|BREAKING CHANGE)"
+          minor_pattern: "^feature/"
 
       # Optional: Create a new Release
       - name: Create Release
