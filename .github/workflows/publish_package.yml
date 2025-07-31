@@ -10,65 +10,73 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Get branch name
-        run: |
-          echo "BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo ${GITHUB_REF#refs/heads/})}"
-          echo "BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo ${GITHUB_REF#refs/heads/})}" >> $GITHUB_ENV
-      
-      - name: Get latest tag
-        id: get_tag
-        run: |
-          latest_tag=$(git describe --tags --abbrev=0 || echo "0.0.0")
-          echo "latest_tag=$latest_tag"
-          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
-    
-      # Detect version bump type
-      - id: get_bump
-        run: |
-          BUMP="patch"
-          echo "Initial BUMP=$BUMP"
-          if [[ "${BRANCH_NAME}" =~ ^feature/ ]]; then
-            BUMP="minor"
-            echo "Branch is feature/, setting BUMP=minor"
-          fi
-
-          # Check commit message for MAJOR/BREAKING
-          MERGE_COMMIT=$(git log -1 --pretty=%B)
-          echo "Merge commit message:"
-          echo "$MERGE_COMMIT"
-          
-          if echo "$MERGE_COMMIT" | grep -qiE "(MAJOR|BREAKING CHANGE)"; then
-            BUMP="major"
-            echo "Found MAJOR or BREAKING CHANGE in commit message, setting BUMP=major"
-          fi
-
-          # Check PR labels for "Major"
-          LABELS="${{ toJson(github.event.pull_request.labels) }}"
-          if echo "$LABELS" | grep -qi major; then
-            BUMP="major"
-            echo "PR labeled major, setting BUMP=major"
-          fi
-
-          echo "Final BUMP=$BUMP"
-          echo "BUMP=$BUMP" >> $GITHUB_ENV
-
-      # Bump version using community action (choose one)
-      - name: Bump version
-        uses: paulhatch/semantic-version@v5.4.0
+      #################################################
+      # 1. Get latest release version (git-based or release-based)
+      #################################################
+      - name: Get latest release version
+        id: current_version
+        uses: PaulHatch/semantic-version@v5
         with:
           tag_prefix: "v"
-          major_pattern: "(MAJOR|BREAKING CHANGE)"
-          minor_pattern: "^feature/"
+          # This Action is maintained, used by many, and updated recently (Jul 2025)[3][15]
+      - name: Echo latest version
+        run: echo "Current version: ${{ steps.current_version.outputs.version }}"
 
-      # Optional: Create a new Release
-      - name: Create Release
-        if: ${{ steps.semantic-version.outputs.new_tag != '' }}
-        uses: actions/create-release@v1
+      #################################################
+      # 2. Decide increment type: patch, minor, major
+      #################################################
+      - name: Set increment type based on branch and labels
+        id: increment_type
+        run: |
+          BRANCH_REF="${{ github.head_ref }}"
+          MERGE_MESSAGE="${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}"
+          LABELS="${{ join(github.event.pull_request.labels.*.name, ',') }}"
+          TYPE="patch"
+
+          echo "Branch: $BRANCH_REF"
+          echo "Merge message: $MERGE_MESSAGE"
+          echo "Labels: $LABELS"
+
+          if [[ "$LABELS" == *"Major"* ]] || [[ "$MERGE_MESSAGE" =~ MAJOR ]] || [[ "$MERGE_MESSAGE" =~ BREAKING[[:space:]]CHANGE ]]; then
+            TYPE="major"
+          elif [[ "$BRANCH_REF" == feature/* ]]; then
+            TYPE="minor"
+          elif [[ "$BRANCH_REF" == fix/* ]]; then
+            TYPE="patch"
+          fi
+
+          # Major version increase option: if the new tag with different 'major' was just created in this PR
+          NEW_MAJOR_TAG=""
+          git fetch --tags
+          LATEST_MAJOR="$(echo ${{ steps.current_version.outputs.version }} | cut -d'.' -f1)"
+          for tag in $(git tag 'v*'); do
+            TAG_MAJOR="$(echo $tag | cut -d'.' -f1 | sed 's/v//')"
+            if [[ "$TAG_MAJOR" -gt "$LATEST_MAJOR" ]]; then
+              NEW_MAJOR_TAG="$tag"
+              break
+            fi
+          done
+
+          if [[ "$NEW_MAJOR_TAG" != "" ]]; then
+            TYPE="major"
+            echo "Detected new major tag: $NEW_MAJOR_TAG"
+          fi
+
+          echo "Will increment: $TYPE"
+          echo "::set-output name=TYPE::$TYPE"
+
+      #################################################
+      # 3. Bump new semantic version
+      #################################################
+      - name: Bump release version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.2.3
         with:
-          tag_name: ${{ steps.semantic-version.outputs.new_tag }}
-          release_name: Release ${{ steps.semantic-version.outputs.new_tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          current-version: ${{ steps.current_version.outputs.version }}
+          version-fragment: ${{ steps.increment_type.outputs.TYPE }}
+
+      - name: Echo new version
+        run: echo "Next version: ${{ steps.bump_version.outputs.next-version }}"
           
 
   nuget_publish:
