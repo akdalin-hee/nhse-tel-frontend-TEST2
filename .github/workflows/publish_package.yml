@@ -14,8 +14,15 @@ jobs:
         run: |
           echo "BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo ${GITHUB_REF#refs/heads/})}"
           echo "BRANCH_NAME=${GITHUB_HEAD_REF:-$(echo ${GITHUB_REF#refs/heads/})}" >> $GITHUB_ENV
-
-      - name: Detect version bump type
+      
+      - name: Get latest tag
+        id: get_tag
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0 || echo "0.0.0")
+          echo "latest_tag=$latest_tag"
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+    
+      # Detect version bump type
       - id: get_bump
         run: |
           BUMP="patch"
@@ -25,7 +32,7 @@ jobs:
             echo "Branch is feature/, setting BUMP=minor"
           fi
 
-          - name: Check commit message for MAJOR/BREAKING
+          # Check commit message for MAJOR/BREAKING
           MERGE_COMMIT=$(git log -1 --pretty=%B)
           echo "Merge commit message:"
           echo "$MERGE_COMMIT"
@@ -35,7 +42,7 @@ jobs:
             echo "Found MAJOR or BREAKING CHANGE in commit message, setting BUMP=major"
           fi
 
-          - name: Check PR labels for "Major"
+          # Check PR labels for "Major"
           LABELS="${{ toJson(github.event.pull_request.labels) }}"
           if echo "$LABELS" | grep -qi major; then
             BUMP="major"
