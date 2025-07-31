@@ -94,6 +94,7 @@ jobs:
     name: Build, Pack, and Publish NuGet Package
     # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    needs: versioning
     permissions:
       contents: write
       packages: write
