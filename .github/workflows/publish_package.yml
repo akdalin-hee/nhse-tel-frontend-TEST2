@@ -76,7 +76,7 @@ jobs:
           version-fragment: ${{ steps.increment_type.outputs.TYPE }}
 
       - name: Echo new version
-        run: echo "Next version: ${{ steps.bump_version.outputs.next-version }}"
+        run: echo "Next version:${{ steps.bump_version.outputs.next-version }}"
           
 
   nuget_publish:
