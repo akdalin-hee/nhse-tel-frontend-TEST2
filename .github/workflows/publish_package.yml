@@ -10,6 +10,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Fetch latest NuGet version from GitHub Packages
+        id: latest_nuget_version
+        env:
+          REPO: ${{ github.repository }}
+          NUGET_PACKAGE: "DotnetViewComponents"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          echo "Fetching latest NuGet version for $NUGET_PACKAGE in $REPO"
+          VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/orgs/$OWNER/packages/nuget/$NUGET_PACKAGE/versions")
+          LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name')
+          echo "Latest NuGet package version: $LATEST_VERSION"
+          echo "::set-output name=version::$LATEST_VERSION"
+
+
       #################################################
       # 1. Get latest release version (git-based or release-based)
       #################################################
