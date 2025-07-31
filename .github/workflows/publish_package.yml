@@ -20,7 +20,7 @@ jobs:
           tag_prefix: "v"
           # This Action is maintained, used by many, and updated recently (Jul 2025)[3][15]
       - name: Echo latest version
-        run: echo "Current version: ${{ steps.current_version.outputs.version }}"
+        run: echo "Current version:${{ steps.current_version.outputs.version }}"
 
       #################################################
       # 2. Decide increment type: patch, minor, major
