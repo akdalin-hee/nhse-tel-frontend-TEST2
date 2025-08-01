@@ -17,7 +17,7 @@ namespace DotnetViewComponents.ViewComponents
                 hasBorder
             );
             
-            var d = 45443;
+            var d = 443;
 
             return View(model);
         }
