@@ -55,7 +55,7 @@ jobs:
           echo "Merge message: $MERGE_MESSAGE"
           echo "Labels: $LABELS"
 
-          if  "$BRANCH_REF" == release/* ]] || [[ "$LABELS" == *"Major"* ]] || [[ "$MERGE_MESSAGE" =~ MAJOR ]] || [[ "$MERGE_MESSAGE" =~ BREAKING[[:space:]]CHANGE ]]; then
+          if [[ "$BRANCH_REF" == release/* ]] || [[ "$LABELS" == *"Major"* ]] || [[ "$MERGE_MESSAGE" =~ MAJOR ]] || [[ "$MERGE_MESSAGE" =~ BREAKING[[:space:]]CHANGE ]]; then
             TYPE="major"
           elif [[ "$BRANCH_REF" == feature/* ]]; then
             TYPE="minor"
