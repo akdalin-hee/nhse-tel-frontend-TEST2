@@ -1,10 +1,10 @@
 name: Publish NuGet Package
 
-on: [push, pull_request]
+on: pull_request
 jobs:
   versioning:
     name: Bump test
-    #if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{ steps.set_version.outputs.version }}  # Job output to be consumed later
@@ -92,7 +92,7 @@ jobs:
 
   nuget_publish:
     name: Build, Pack, and Publish NuGet Package
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     needs: versioning
     permissions:
