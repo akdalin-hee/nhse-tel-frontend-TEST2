@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v4
       
       #################################################
-      # 1. Fetch latest NuGet package version from GitHub Packages
+      # Fetch latest NuGet package version from GitHub Packages
       #################################################
       - name: Fetch latest NuGet version from GitHub Packages
         id: latest_nuget_version
@@ -26,14 +26,12 @@ jobs:
         run: |
           echo "Fetching latest NuGet version for package '$NUGET_PACKAGE' in owner '$OWNER'"
           
-          # For org-owned packages, use this API endpoint:
           API_URL="https://api.github.com/users/$OWNER/packages/nuget/$NUGET_PACKAGE/versions"
           
           VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             "$API_URL")
           
-          # Extract the first (latest) version name from JSON array or set default "0.0.0"
           LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name // "0.0.0"')
 
           echo "Latest NuGet package version found: $LATEST_VERSION"
@@ -43,7 +41,7 @@ jobs:
         run: echo "Current version:${{ steps.latest_nuget_version.outputs.version }}"
 
       #################################################
-      # 2. Decide increment type: patch, minor, major
+      # Decide increment type: patch, minor, major
       #################################################
       - name: Set increment type based on branch and labels
         id: increment_type
@@ -72,7 +70,7 @@ jobs:
           echo "TYPE=$TYPE" >> $GITHUB_OUTPUT
 
       #################################################
-      # 3. Bump new semantic version
+      # Bump new semantic version
       #################################################
       - name: Bump release version
         id: bump_version
@@ -85,7 +83,7 @@ jobs:
         run: echo "Next version:${{ steps.bump_version.outputs.next-version }}"
 
       #################################################
-      # 4. Set new version as job output for downstream jobs
+      # Set new version as job output for downstream jobs
       #################################################
       - name: Set version output for job
         id: set_version
