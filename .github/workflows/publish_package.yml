@@ -1,6 +1,8 @@
 name: Publish NuGet Package
 
-on: pull_request
+on:
+  pull_request:
+    types: [closed]
 jobs:
   versioning:
     name: Bump test
