@@ -153,3 +153,26 @@ jobs:
 
       - name: Publish NuGet package to GitHub Packages
         run: dotnet nuget push out/*.nupkg --api-key $GITHUB_TOKEN --source "github" --skip-duplicate
+
+      #################################################
+      # Publish release
+      #################################################
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Upload Package to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: ./package/*.nupkg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
