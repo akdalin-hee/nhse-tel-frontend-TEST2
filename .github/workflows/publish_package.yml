@@ -162,8 +162,8 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ NEXT_VERSION }}
-          release_name: Release v$NEXT_VERSION
+          tag_name: ${{ needs.versioning.outputs.new_version }}
+          release_name: Release v${{ needs.versioning.outputs.new_version }}
           draft: false
           prerelease: false
         env:
