@@ -162,7 +162,7 @@ jobs:
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: $NEXT_VERSION
+          tag_name: ${{ NEXT_VERSION }}
           release_name: Release v$NEXT_VERSION
           draft: false
           prerelease: false
