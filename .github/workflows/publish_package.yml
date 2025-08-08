@@ -5,11 +5,11 @@ on:
     types: [closed]
 jobs:
   versioning:
-    name: Bump test
+    name: Fetch anf increase version
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
-      new_version: ${{ steps.set_version.outputs.version }}  # Job output to be consumed later
+      new_version: ${{ steps.set_version.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,18 +20,20 @@ jobs:
       - name: Fetch latest NuGet version from GitHub Packages
         id: latest_nuget_version
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           NUGET_PACKAGE: "DotnetViewComponents"
         run: |
           echo "Fetching latest NuGet version for package '$NUGET_PACKAGE' in owner '$OWNER'"
           
           API_URL="https://api.github.com/users/$OWNER/packages/nuget/$NUGET_PACKAGE/versions"
-          
-          VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+
+          ### fetch GitHub Packages
+          VERSIONS_JSON=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
             "$API_URL")
-          
+
+          ### extract latest nuget pkg version
           LATEST_VERSION=$(echo "$VERSIONS_JSON" | jq -r '.[0].name // "0.0.0"')
 
           echo "Latest NuGet package version found: $LATEST_VERSION"
@@ -55,7 +57,7 @@ jobs:
           echo "Merge message: $MERGE_MESSAGE"
           echo "Labels: $LABELS"
 
-          if [[ "$BRANCH_REF" == release/* ]] || [[ "$LABELS" == *"Major"* ]] || [[ "$MERGE_MESSAGE" =~ MAJOR ]] || [[ "$MERGE_MESSAGE" =~ BREAKING[[:space:]]CHANGE ]]; then
+          if [[ "$BRANCH_REF" == major/* ]] || [[ "$LABELS" == *"Major"* ]] || [[ "$MERGE_MESSAGE" =~  (?i)MAJOR[[:space:]]CHANGE ]] || [[ "$MERGE_MESSAGE" =~ (?i)BREAKING[[:space:]]CHANGE ]]; then
             TYPE="major"
           elif [[ "$BRANCH_REF" == feature/* ]]; then
             TYPE="minor"
