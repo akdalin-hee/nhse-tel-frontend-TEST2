@@ -15,6 +15,7 @@ namespace DotnetViewComponents.ViewComponents
         {
 
             var model = new DoDontListViewModel(isDo, ruleSet);
+            var uno = 2;
 
             return View(model);
         }
