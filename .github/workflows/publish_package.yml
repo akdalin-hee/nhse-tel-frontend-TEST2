@@ -5,7 +5,7 @@ on:
     types: [closed]
 jobs:
   versioning:
-    name: Fetch anf increase version
+    name: Fetch and increment version
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     outputs:
@@ -72,9 +72,9 @@ jobs:
           echo "TYPE=$TYPE" >> $GITHUB_OUTPUT
 
       #################################################
-      # Bump new semantic version
+      # Increment semantic version
       #################################################
-      - name: Bump release version
+      - name: Increment package version
         id: bump_version
         uses: christian-draeger/increment-semantic-version@1.2.3
         with:
